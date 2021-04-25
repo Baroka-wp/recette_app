@@ -1,0 +1,44 @@
+<div class="recette_img">
+  <img src=<%= @recette.recette_img %> alt="">
+  <span> <%= @recette.user.name%></span>
+</div>
+<div class="mael-details">
+  <h3><%= @recette.name %></h3>
+  <h4><%= @recette.origin %></h4>
+  <h4><%= @recette.categorie %></h4>
+  <div class="favorite_recette">
+    likes (<%= @recette.favorites.count %>)
+    <% if logged_in? %>
+      <% unless @recette.user_id == current_user.id %>
+        <% if @favorite.present? %>
+            <%= link_to 'supprimer de mes favorites', favorite_path(id: @favorite.id), method: :delete %>
+        <% else %>
+             <%= link_to 'ajouter a mes favorites', favorites_path(recette_id: @recette.id), method: :post %>
+        <% end %>
+      <% end %>
+  <% end %>
+  </div>
+</div>
+  <div class="recette_description">
+    <p><%= @recette.preparation %></p>
+    <p><%= @recette.description %></p>
+    <div class="ingredient">
+      <h3>INGREDIENTS</h3>
+    <% if @recette.ingredients != nil %>
+        <% @tableau_des_ingredients.each do |ingredient| %>
+          <ul>
+            <li><%= ingredient %></li>
+          </ul>
+      <% end %>
+    <% end %>
+    </div>
+    <a href="<%= @recette.video %>">Voir la video youtude</a>
+  </div>
+
+  <div class="">
+    <% if logged_in? && current_user.id == @recette.user_id%>
+      <%= link_to "modifier la recette", edit_recette_path(@recette) %>
+      <%= link_to "supprimer la recette", recette_path(@recette.id), method: :delete %>
+  <% end %>
+  </div>
+</div>
